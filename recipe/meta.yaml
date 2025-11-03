@@ -6,26 +6,29 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 09b77b91a9bffd475eaaeb631628bdfd9a7e3eed31d235290614bb38c7979692
 
 build:
-  number: 6
+  number: 7
+  noarch: python
   script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
     - pip
+    - setuptools
   run:
-    - python
+    - python >={{ python_min }}
     - pytest
     - coveralls
     - pytest-cov
     - coverage
-    - mock >=0.8.0  # [py<33]
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - mockextras
 
